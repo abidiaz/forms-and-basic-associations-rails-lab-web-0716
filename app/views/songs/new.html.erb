@@ -3,9 +3,33 @@
 <%= form_for @song  do |f| %>
   <%= f.label :title %>
   <%= f.text_field :title %>
-  <br />
-
+  <br>
+  <%= f.label :artist_name %>
+  <%= f.text_field :artist_name, list: "artists_autocomplete" %>
+  <datalist id="artists_autocomplete">
+    <%= Artist.all.each do |artist| %>
+    <option><%= artist.name %></option>
+    <% end %>
+    </datalist>
+  <br>
+  <%= f.label :genre_name %>
+  <%= f.collection_select :genre_id, Genre.all, :id, :name %>
+  <br>
+  <input id="song_notes_1" name="song[note_contents][]">
+  <input id="song_notes_2" name="song[note_contents][]">
+  <input id="song_notes_3" name="song[note_contents][]">
   <%= f.submit %>
 <% end %>
 
 
+
+<!-- it 'creates a song with notes' do
+    visit '/songs/new'
+    fill_in :song_title, with: 'Little Earthquakes'
+    fill_in :song_notes_1, with: 'great piano'
+    fill_in :song_notes_2, with: 'inaccurate seismology'
+    find('input[name="commit"]').click
+    expect(Song.last.note_contents).to eq ['great piano', 'inaccurate seismology']
+  end
+end
+ -->
